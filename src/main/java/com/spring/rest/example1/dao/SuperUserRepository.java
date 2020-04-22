@@ -20,7 +20,7 @@ public class SuperUserRepository {
 	@PostConstruct
 	@Transactional
 	public void createSuperUser() {
-		Optional<User> optionalUser = userRepository.findById(new Long(1));
+		Optional<User> optionalUser = userRepository.findById(Long.valueOf(1));
 		User existingUser = optionalUser.orElse(null);
 		if (existingUser == null) {
 			User user = new User();
