@@ -1,7 +1,6 @@
 package com.spring.rest.example1.exception;
 
 import java.io.IOException;
-import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -57,10 +56,5 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	@ExceptionHandler(Exception.class)
 	public void GenericException(HttpServletResponse response) throws IOException {
 		response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value());
-	}
-
-	@ExceptionHandler(AccessDeniedException.class)
-	public void unauthorizedException(HttpServletResponse response) throws IOException {
-		response.sendError(HttpStatus.UNAUTHORIZED.value());
 	}
 }
