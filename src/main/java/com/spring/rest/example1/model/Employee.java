@@ -10,8 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -23,7 +23,7 @@ import org.springframework.hateoas.RepresentationModel;
  */
 @Entity
 @Table(name = "employee")
-public class Employee extends RepresentationModel<Employee> implements Serializable{
+public class Employee extends RepresentationModel<Employee> implements Serializable {
 
 	/**
 	 * 
@@ -36,15 +36,25 @@ public class Employee extends RepresentationModel<Employee> implements Serializa
 
 	@Size(min = 2, message = "Name should contain atleast 2 characters.")
 	private String name;
-	
+
 	@Size(min = 2, message = "Designation should contain atleast 2 characters.")
 	private String designation;
 
-	private String status;
-	
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id")
+	@PrimaryKeyJoinColumn(name = "user_id")
 	private User user;
+
+	public Employee() {
+	}
+
+	public Employee(@Size(min = 2, message = "Name should contain atleast 2 characters.") String name,
+			@Size(min = 2, message = "Designation should contain atleast 2 characters.") String designation,
+			User user) {
+		super();
+		this.name = name;
+		this.designation = designation;
+		this.user = user;
+	}
 
 	public Long getId() {
 		return id;
@@ -70,17 +80,11 @@ public class Employee extends RepresentationModel<Employee> implements Serializa
 		this.designation = designation;
 	}
 
-	public String getStatus() {
-		return status;
+	public User getUser() {
+		return user;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	@Override
-	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", designation=" + designation + ", status=" + status + "]";
-	}
-
 }

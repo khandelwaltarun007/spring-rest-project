@@ -15,6 +15,7 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "user")
@@ -22,13 +23,13 @@ public class User extends RepresentationModel<User> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="user_id")
+	@Column(name = "user_id")
 	private Long id;
 	private String username;
 	private String role;
 	private String password;
 
-	private boolean isActive;
+	private String status;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -42,15 +43,32 @@ public class User extends RepresentationModel<User> {
 
 	private String updatedBy;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
 	private Employee employee;
+
+	public User() {
+	}
+
+	public User(String username, String role, String password, String status, Date createdDate, Date updatedDate,
+			String createdBy, String updatedBy, Employee employee) {
+		super();
+		this.username = username;
+		this.role = role;
+		this.password = password;
+		this.status = status;
+		this.createdDate = createdDate;
+		this.updatedDate = updatedDate;
+		this.createdBy = createdBy;
+		this.updatedBy = updatedBy;
+		this.employee = employee;
+	}
 
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = new BCryptPasswordEncoder(12).encode(password);
 	}
 
 	public Long getId() {
@@ -77,10 +95,51 @@ public class User extends RepresentationModel<User> {
 		this.role = role;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", username=" + username + ", role=" + role + ", password=" + password + ", isActive="
-				+ isActive + ", createdDate=" + createdDate + ", updatedDate=" + updatedDate + ", createdBy="
-				+ createdBy + ", updatedBy=" + updatedBy + ", employee=" + employee + "]";
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getUpdatedDate() {
+		return updatedDate;
+	}
+
+	public void setUpdatedDate(Date updatedDate) {
+		this.updatedDate = updatedDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
 	}
 }
