@@ -29,7 +29,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests()
 		.antMatchers("/").permitAll()
-		.antMatchers("/employee/**").access("hasAnyAuthority('ADMIN')")
+		//.antMatchers("/employee/**").access("hasAnyAuthority('ADMIN')")
 		.and()
 		.httpBasic().realmName("MY_APP_REALM").authenticationEntryPoint(appAuthenicationEntryPoint).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
