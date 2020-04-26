@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.spring.rest.example1.model.Employee;
-import com.spring.rest.example1.model.User;
+import com.spring.rest.example1.pojo.entity.Employee;
+import com.spring.rest.example1.pojo.entity.User;
 
 @Repository
 public class SuperUserRepository {
@@ -24,20 +24,8 @@ public class SuperUserRepository {
 		Optional<User> optionalUser = userRepository.findById(Long.valueOf(1));
 		User existingUser = optionalUser.orElse(null);
 		if (existingUser == null) {
-			Employee employee = new Employee();
-			employee.setName("Admin");
-			employee.setDesignation("Super User");
-			User user = new User();
-			user.setPassword("admin");
-			user.setUsername("admin");
-			user.setRole("ADMIN");
-			user.setStatus("1");
-			user.setCreatedBy("System");
-			user.setUpdatedBy("System");
-			user.setCreatedDate(new Date());
-			user.setUpdatedDate(new Date());
-			user.setEmployee(employee);
-			employee.setUser(user);
+			Employee employee = new Employee("Admin", "Super User");
+			User user = new User("admin", "ADMIN", "admin", "1", new Date(), new Date(), "System", "System", employee);
 			userRepository.save(user);
 		}
 	}
