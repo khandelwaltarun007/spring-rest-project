@@ -1,21 +1,17 @@
 /**
  * 
  */
-package com.spring.rest.example1.model;
+package com.spring.rest.example1.pojo.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-
-import org.springframework.hateoas.RepresentationModel;
 
 /**
  * @author tarkhand
@@ -23,7 +19,7 @@ import org.springframework.hateoas.RepresentationModel;
  */
 @Entity
 @Table(name = "employee")
-public class Employee extends RepresentationModel<Employee> implements Serializable {
+public class Employee implements Serializable {
 
 	/**
 	 * 
@@ -35,25 +31,20 @@ public class Employee extends RepresentationModel<Employee> implements Serializa
 	private Long id;
 
 	@Size(min = 2, message = "Name should contain atleast 2 characters.")
+	@NotBlank(message = "employee name is mandatory.")
 	private String name;
 
 	@Size(min = 2, message = "Designation should contain atleast 2 characters.")
 	private String designation;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name = "user_id")
-	private User user;
-
 	public Employee() {
 	}
 
 	public Employee(@Size(min = 2, message = "Name should contain atleast 2 characters.") String name,
-			@Size(min = 2, message = "Designation should contain atleast 2 characters.") String designation,
-			User user) {
+			@Size(min = 2, message = "Designation should contain atleast 2 characters.") String designation) {
 		super();
 		this.name = name;
 		this.designation = designation;
-		this.user = user;
 	}
 
 	public Long getId() {
@@ -80,11 +71,4 @@ public class Employee extends RepresentationModel<Employee> implements Serializa
 		this.designation = designation;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
 }

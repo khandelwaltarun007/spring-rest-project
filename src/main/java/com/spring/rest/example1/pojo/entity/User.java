@@ -1,5 +1,6 @@
-package com.spring.rest.example1.model;
+package com.spring.rest.example1.pojo.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -8,53 +9,73 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import static com.spring.rest.example1.util.CodeUtility.isNotEmpty;
 
 @Entity
 @Table(name = "user")
-public class User extends RepresentationModel<User> {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
 	private Long id;
+
+	@NotBlank(message = "username is mandatory.")
+	@Size(min = 4, message = "username must contain atleast 4 letter")
 	private String username;
+
+	@NotBlank(message = "atleast one role is mandatory.")
 	private String role;
+
+	@NotBlank(message = "password is mandatory.")
 	private String password;
 
 	private String status;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
 	private Date createdDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
+	@UpdateTimestamp
 	private Date updatedDate;
 
 	private String createdBy;
 
 	private String updatedBy;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false)
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "employee_id")
 	private Employee employee;
 
 	public User() {
 	}
 
-	public User(String username, String role, String password, String status, Date createdDate, Date updatedDate,
-			String createdBy, String updatedBy, Employee employee) {
+	public User(@NotBlank(message = "username is mandatory.") String username,
+			@NotBlank(message = "atleast one role is mandatory.") String role,
+			@NotBlank(message = "password is mandatory.") String password, String status, Date createdDate,
+			Date updatedDate, String createdBy, String updatedBy, Employee employee) {
 		super();
 		this.username = username;
 		this.role = role;
-		this.password = password;
+		this.password = isNotEmpty(password) ? new BCryptPasswordEncoder(12).encode(password) : password;
 		this.status = status;
 		this.createdDate = createdDate;
 		this.updatedDate = updatedDate;
@@ -68,7 +89,7 @@ public class User extends RepresentationModel<User> {
 	}
 
 	public void setPassword(String password) {
-		this.password = new BCryptPasswordEncoder(12).encode(password);
+		this.password = isNotEmpty(password) ? new BCryptPasswordEncoder(12).encode(password) : password;
 	}
 
 	public Long getId() {
