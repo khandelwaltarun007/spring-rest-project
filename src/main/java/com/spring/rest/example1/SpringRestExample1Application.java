@@ -11,7 +11,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver;
 
 @SpringBootApplication
-@EnableHypermediaSupport(type = {HypermediaType.HAL})
+@EnableHypermediaSupport(type = { HypermediaType.HAL })
 public class SpringRestExample1Application {
 
 	public static void main(String[] args) {

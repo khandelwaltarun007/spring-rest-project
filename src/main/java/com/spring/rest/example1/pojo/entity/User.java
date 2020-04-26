@@ -1,5 +1,7 @@
 package com.spring.rest.example1.pojo.entity;
 
+import static com.spring.rest.example1.common.util.CodeUtility.isNotEmpty;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,8 +23,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import static com.spring.rest.example1.util.CodeUtility.isNotEmpty;
 
 @Entity
 @Table(name = "user")

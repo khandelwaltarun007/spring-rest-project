@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -49,9 +50,18 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex, WebRequest request) throws IOException {
-		ExceptionResponseEntity exceptionResponseEntity = new ExceptionResponseEntity(new Date(), "Invalid Request", ex.getMessage());
+	public ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex, WebRequest request)
+			throws IOException {
+		ExceptionResponseEntity exceptionResponseEntity = new ExceptionResponseEntity(new Date(), "Invalid Request",
+				ex.getMessage());
 		return new ResponseEntity<Object>(exceptionResponseEntity, HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(AccessDeniedException.class)
+	public ResponseEntity<Object> accessDenidException(AccessDeniedException ex, WebRequest request) {
+		ExceptionResponseEntity exceptionResponseEntity = new ExceptionResponseEntity(new Date(),
+				"Authorization Failed", ex.getMessage());
+		return new ResponseEntity<Object>(exceptionResponseEntity, HttpStatus.FORBIDDEN);
 	}
 
 	@ExceptionHandler(Exception.class)

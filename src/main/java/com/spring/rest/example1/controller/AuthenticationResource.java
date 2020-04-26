@@ -29,12 +29,11 @@ public class AuthenticationResource {
 	private JwtUtil jwtUtil;
 
 	@PostMapping("/api/authenticate")
-	public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody(required = true) AuthenticationRequest credentials) throws Exception {
+	public ResponseEntity<AuthenticationResponse> authenticate(
+			@RequestBody(required = true) AuthenticationRequest credentials) throws Exception {
 		String username = credentials.getUsername();
 		String password = credentials.getPassword();
 		try {
-			System.out.println("username : "+username);
-			System.out.println("password : "+password);
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (BadCredentialsException e) {
 			throw new Exception("Incorrect username or password." + e);
@@ -42,9 +41,9 @@ public class AuthenticationResource {
 			e.printStackTrace();
 		}
 		final UserDetails userDetails = userDetailService.loadUserByUsername(username);
-		System.out.println("userDetails from authentication resource : "+userDetails.getPassword());
 		final String token = jwtUtil.generateToken(userDetails);
 		System.out.println(token);
-		return new ResponseEntity<>(new AuthenticationResponse(token, jwtUtil.getTokenExpirationDate(token)), HttpStatus.OK);
+		return new ResponseEntity<>(new AuthenticationResponse(token, jwtUtil.getTokenExpirationDate(token)),
+				HttpStatus.OK);
 	}
 }

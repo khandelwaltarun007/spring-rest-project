@@ -15,9 +15,9 @@ import com.spring.rest.example1.pojo.entity.Employee;
  * @author tarkhand
  *
  */
-public interface EmployeeRepository extends JpaRepository<Employee, Long>{
-	
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+
 	@Query("SELECT employees from Employee employees WHERE employees.name = :name")
 	public List<Employee> findByEmployeeName(@Param("name") String name);
-	
+
 }

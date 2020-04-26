@@ -6,7 +6,7 @@ import java.util.Date;
 public class AuthenticationResponse implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private String token;
 	private Date expirationDate;
 

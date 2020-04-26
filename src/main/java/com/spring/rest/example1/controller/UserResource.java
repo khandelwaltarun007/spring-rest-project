@@ -41,7 +41,7 @@ public class UserResource {
 	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<UserModel> createUser(@Valid @RequestBody User user) {
 		User createdUser = userService.createUser(user);
-		return new ResponseEntity<>(userAssembler.toModel(createdUser),HttpStatus.CREATED);
+		return new ResponseEntity<>(userAssembler.toModel(createdUser), HttpStatus.CREATED);
 	}
 
 	@GetMapping
@@ -54,8 +54,7 @@ public class UserResource {
 	@GetMapping("/{id}")
 	@PreAuthorize("hasAnyAuthority('USER','ADMIN')")
 	public ResponseEntity<UserModel> getByUserId(@PathVariable("id") Long id) {
-		return userService.getByUserId(id)
-				.map(userAssembler::toModel).map(ResponseEntity::ok)
+		return userService.getByUserId(id).map(userAssembler::toModel).map(ResponseEntity::ok)
 				.orElseThrow(() -> new EntityNotFoundException("User id : " + id + " not found."));
 	}
 }

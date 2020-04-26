@@ -15,22 +15,21 @@ import com.spring.rest.example1.dao.UserRepository;
 import com.spring.rest.example1.pojo.entity.User;
 
 @Service
-public class MyAppUserDetailService implements UserDetailsService{
+public class MyAppUserDetailService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username);
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		String[] authStrings = user.getRole().split(", ");
-		for(String authString : authStrings) {
+		for (String authString : authStrings) {
 			authorities.add(new SimpleGrantedAuthority(authString));
 		}
-		//GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-		UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				authorities);
+		UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(
+				user.getUsername(), user.getPassword(), authorities);
 		return userDetails;
 	}
 

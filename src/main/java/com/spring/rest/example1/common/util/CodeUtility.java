@@ -1,4 +1,4 @@
-package com.spring.rest.example1.util;
+package com.spring.rest.example1.common.util;
 
 public class CodeUtility {
 

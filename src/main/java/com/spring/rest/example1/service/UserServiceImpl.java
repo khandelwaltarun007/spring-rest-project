@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Override
 	public Optional<User> getByUserId(Long id) {
 		return userRepository.findById(id);
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User updateUser(User user) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String userName = ((User)principal).getUsername();
+		String userName = ((User) principal).getUsername();
 		user.setUpdatedBy(userName);
 		user.setUpdatedDate(new Date());
 		return userRepository.save(user);
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User createUser(User user) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String userName = ((UserDetails)principal).getUsername();
+		String userName = ((UserDetails) principal).getUsername();
 		user.setCreatedDate(new Date());
 		user.setUpdatedDate(new Date());
 		user.setCreatedBy(userName);
