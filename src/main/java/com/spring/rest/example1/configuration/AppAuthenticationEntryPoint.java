@@ -22,7 +22,6 @@ public class AppAuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) throws IOException {
 		response.setHeader("WWW-Authenticate", "Basic realm=\"" + getRealmName() + "\"");
-		System.out.println("getRealmName : " + getRealmName());
 		response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 				authException.getMessage() != null ? authException.getMessage() : "Access Denied.");
 	}

@@ -3,7 +3,7 @@ package com.spring.rest.example1.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.spring.rest.example1.model.User;
+import com.spring.rest.example1.pojo.entity.User;
 
 public interface UserService {
 	public Optional<User> getByUserId(Long id);

@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.spring.rest.example1.dao.UserRepository;
-import com.spring.rest.example1.model.User;
+import com.spring.rest.example1.pojo.entity.User;
 
 @Service
 public class MyAppUserDetailService implements UserDetailsService{
@@ -23,7 +23,6 @@ public class MyAppUserDetailService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepository.findByUsername(username);
-		System.out.println("Users : "+user.toString());
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		String[] authStrings = user.getRole().split(", ");
 		for(String authString : authStrings) {

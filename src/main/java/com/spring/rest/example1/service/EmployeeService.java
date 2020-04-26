@@ -6,7 +6,7 @@ package com.spring.rest.example1.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.spring.rest.example1.model.Employee;
+import com.spring.rest.example1.pojo.entity.Employee;
 
 /**
  * @author tarkhand

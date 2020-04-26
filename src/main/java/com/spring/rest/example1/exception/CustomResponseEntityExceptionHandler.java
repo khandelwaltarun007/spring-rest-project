@@ -49,8 +49,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
-	public void constraintViolationException(HttpServletResponse response) throws IOException {
-		response.sendError(HttpStatus.BAD_REQUEST.value());
+	public ResponseEntity<Object> constraintViolationException(ConstraintViolationException ex, WebRequest request) throws IOException {
+		ExceptionResponseEntity exceptionResponseEntity = new ExceptionResponseEntity(new Date(), "Invalid Request", ex.getMessage());
+		return new ResponseEntity<Object>(exceptionResponseEntity, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(Exception.class)

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.rest.example1.dao.EmployeeRepository;
-import com.spring.rest.example1.model.Employee;
+import com.spring.rest.example1.pojo.entity.Employee;
 
 /**
  * @author tarkhand

@@ -13,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.spring.rest.example1.dao.UserRepository;
-import com.spring.rest.example1.model.User;
+import com.spring.rest.example1.pojo.entity.User;
 
 /**
  * @author tarkhand
@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
 	public User createUser(User user) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = ((UserDetails)principal).getUsername();
-		System.out.println("#####################################userName:"+userName);
 		user.setCreatedDate(new Date());
 		user.setUpdatedDate(new Date());
 		user.setCreatedBy(userName);
